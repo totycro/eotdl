@@ -13,7 +13,7 @@ services:
     command: server /data --console-address ":9001"
 
   eotdl-api-test:
-    build: ./apis/eotdl
+    build: ./api
     container_name: eotdl-api-test
     environment:
       - MONGO_URL=mongodb://eotdl-mongo-test:27017
@@ -28,15 +28,16 @@ services:
     env_file: # auth0 credentials
       - .env
     volumes:
-      - ./apis/eotdl:/api
+      - ./api:/api
       - ./eotdl/eotdl:/api/eotdl
     command: uvicorn api.main:app --host 0.0.0.0 --reload
 
-  eotdl-test:
-    build: ./eotdl 
-    container_name: eotdl-test
-    environment:
-      - EOTDL_API_URL=http://eotdl-api-test:8000
-    volumes:
-      - ./eotdl:/eotdl
-    tty: true
+  # there's no eotdl Dockerfile right now?
+  # eotdl-test:
+  #   build: ./eotdl 
+  #   container_name: eotdl-test
+  #   environment:
+  #     - EOTDL_API_URL=http://eotdl-api-test:8000
+  #   volumes:
+  #     - ./eotdl:/eotdl
+  #   tty: true
